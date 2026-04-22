@@ -18,6 +18,7 @@ rev_df = df[df[REVENUE_FIELD].notna()] if REVENUE_FIELD in df.columns else pd.Da
 
 # ── Best vs worst destinations ────────────────────────────────────────────────
 st.subheader("Top 5 & Bottom 5 Destinations by Revenue")
+st.caption("Double down on top destinations — they're proven sellers. For the bottom five, ask whether low revenue reflects low demand, poor pricing, or just few bookings. A destination with few but high-value trips may not belong at the bottom.")
 if not rev_df.empty and "Destination" in rev_df.columns:
     dest = (
         rev_df[rev_df["Destination"] != "Unknown"]
@@ -46,6 +47,7 @@ st.markdown("---")
 
 # ── Profit by destination ─────────────────────────────────────────────────────
 st.subheader("Profit by Destination")
+st.caption("Colour ranges red (low margin) to green (high margin). A tall bar that's red means high revenue masking poor profitability — volume without value. A shorter green bar may actually be more worth pursuing than a taller red one.")
 if "Profit_GBP" in rev_df.columns and "Destination" in rev_df.columns:
     profit_dest = (
         rev_df[rev_df["Destination"] != "Unknown"]
@@ -72,6 +74,7 @@ st.markdown("---")
 
 # ── Supplier performance ──────────────────────────────────────────────────────
 st.subheader("Top Suppliers by Revenue")
+st.caption("If one supplier dominates, you have negotiating leverage — use it. Colour shows supplier type, so check whether your revenue is spread across categories or concentrated in one. Over-dependence on a single supplier is an operational risk.")
 if "Supplier_Name" in rev_df.columns:
     supp = (
         rev_df.dropna(subset=["Supplier_Name"])
@@ -100,6 +103,7 @@ st.markdown("---")
 
 # ── Agent performance ─────────────────────────────────────────────────────────
 st.subheader("Agent Performance")
+st.caption("Compare revenue alongside completion rate — a high-revenue agent with a low completion rate may be over-promising or mismanaging trips. An agent with modest revenue but a high completion rate is reliable and worth growing. The ideal agent is top-right on both charts.")
 agent_col = "Trip_Owner_Name" if "Trip_Owner_Name" in df.columns else None
 if agent_col:
     agent_df = df.drop_duplicates("Trip__c")[["Trip__c", agent_col, "Trip_Status__c"]].copy()
@@ -156,6 +160,7 @@ st.markdown("---")
 
 # ── Commission analysis ───────────────────────────────────────────────────────
 st.subheader("Commission Rate by Supplier Type")
+st.caption("Higher commission rates mean better margins when clients are flexible on supplier choice. When two similar options exist, favour the higher-commission one. If a category consistently has low commission, factor that into pricing or negotiate harder.")
 if "Commission_from_Vendor__c" in df.columns and "Category__c" in df.columns:
     comm = (
         df[df["Commission_from_Vendor__c"].notna()]

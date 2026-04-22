@@ -46,6 +46,7 @@ st.markdown("---")
 
 # ── Revenue by month (upcoming) ───────────────────────────────────────────────
 st.subheader("Confirmed Revenue by Month (Upcoming)")
+st.caption("Months with no bar are gaps in your confirmed pipeline — those are the periods to push bookings now. A consistent spread across months means predictable cash flow; a spike in one month with nothing before or after is a revenue cliff.")
 if not pipeline.empty and "BookingMonth" in pipeline.columns:
     monthly = (
         pipeline.groupby("BookingMonth")[REVENUE_FIELD]
@@ -67,6 +68,7 @@ st.markdown("---")
 
 # ── Upcoming trips detail ─────────────────────────────────────────────────────
 st.subheader("Upcoming Trips")
+st.caption("Sort by Days Away to prioritise operational readiness. Trips within 30 days should have all bookings confirmed and clients briefed. Use this as your daily operations checklist — any trip close to departure with missing details needs immediate attention.")
 window = st.radio("Show trips in the next", ["30 days", "60 days", "90 days", "All upcoming"], horizontal=True)
 window_map = {"30 days": 30, "60 days": 60, "90 days": 90, "All upcoming": 99999}
 window_days = window_map[window]
@@ -148,6 +150,7 @@ st.markdown("---")
 
 # ── Upcoming by destination ───────────────────────────────────────────────────
 st.subheader("Where Are Clients Going? (Next 90 Days)")
+st.caption("Concentration in one destination means operational dependency on that region. If something disrupts travel there — weather, political events, airline issues — your near-term revenue takes a direct hit. Use this to spot that exposure ahead of time.")
 if not next90.empty and "Destination" in next90.columns:
     dest = (
         next90[next90["Destination"] != "Unknown"]

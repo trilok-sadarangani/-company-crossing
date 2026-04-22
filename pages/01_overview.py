@@ -33,6 +33,7 @@ st.markdown("---")
 
 # ── Revenue trend ─────────────────────────────────────────────────────────────
 st.subheader("Revenue Over Time")
+st.caption("Look for consistent growth and spot seasonal dips. A flattening trend signals the need to drive new bookings. Use the grouping toggle to zoom in on monthly detail or out to annual progress.")
 if not rev_df.empty and "BookingMonth" in rev_df.columns:
     gran = st.radio("Group by", ["Month", "Quarter", "Year"], horizontal=True)
     period_col = {"Month": "BookingMonth", "Quarter": "BookingQuarter", "Year": "BookingYear"}[gran]
@@ -60,6 +61,7 @@ st.markdown("---")
 
 # ── Booking type breakdown ────────────────────────────────────────────────────
 st.subheader("Bookings by Type")
+st.caption("The bar shows where most activity is; the pie shows where revenue actually comes from — the two often differ. A type with many bookings but a small revenue slice is high-volume but low-value.")
 if "Category__c" in df.columns:
     cat = (
         df.groupby("Category__c")
@@ -92,6 +94,7 @@ st.markdown("---")
 
 # ── Trip status breakdown ─────────────────────────────────────────────────────
 st.subheader("Trips by Status")
+st.caption("A large proportion of Confirmed or Completed trips indicates a healthy pipeline. A high Cancelled count may point to pricing mismatches, timing issues, or supplier problems worth investigating.")
 if "Trip_Status__c" in df.columns:
     # Deduplicate to one row per trip
     trips = df.drop_duplicates(subset="Trip__c")[["Trip__c", "Trip_Status__c"]].copy()

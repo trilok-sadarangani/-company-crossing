@@ -36,6 +36,7 @@ st.markdown("---")
 
 # ── Top clients by revenue ────────────────────────────────────────────────────
 st.subheader("Top 20 Clients by Revenue")
+st.caption("A steep drop-off after the top few clients signals high concentration risk. Ideally your top 5 clients should represent no more than 40–50% of total revenue — beyond that, losing one client materially hurts the business.")
 top = top_clients(trip_clients, df, n=20)
 if not top.empty:
     top["Label"] = top["Revenue_GBP"].apply(format_currency)
@@ -57,6 +58,7 @@ st.markdown("---")
 
 # ── Client trips frequency ────────────────────────────────────────────────────
 st.subheader("How Often Do Clients Travel?")
+st.caption("Most clients booking only once or twice means retention is a bigger lever than acquisition. Shifting even 10% of one-time clients to a second trip significantly grows revenue without any new marketing spend.")
 if not trip_clients.empty:
     freq = trips_per_client.value_counts().reset_index()
     freq.columns = ["Number of Trips", "Clients"]
@@ -74,6 +76,7 @@ st.markdown("---")
 
 # ── Where clients come from ───────────────────────────────────────────────────
 st.subheader("Where Your Clients Come From")
+st.caption("Geographic concentration tells you where to focus referral and marketing efforts. Clients from one country also book similar destinations — understanding their origin helps tailor trip recommendations.")
 if "Trip_Client_Location__c" in df.columns and df["Trip_Client_Location__c"].notna().any():
     locations = (
         df[df["Trip_Client_Location__c"].notna()]
@@ -108,6 +111,7 @@ st.markdown("---")
 
 # ── New clients over time ─────────────────────────────────────────────────────
 st.subheader("New Clients Over Time")
+st.caption("A growing bar chart shows healthy acquisition. Flat or declining new client numbers means future growth depends entirely on existing clients returning — check the Customer Intelligence page to see how well you're retaining them.")
 if not trip_clients.empty and "Trip__c" in trip_clients.columns:
     # Join trip start date to trip_clients — only past months
     today = pd.Timestamp.now(tz="UTC").normalize()

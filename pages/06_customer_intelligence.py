@@ -24,6 +24,7 @@ today = pd.Timestamp.now(tz="UTC")
 
 # ── Segment summary ───────────────────────────────────────────────────────────
 st.subheader("Client Segments at a Glance")
+st.caption("Champions and Loyals are your core revenue — protect these relationships with personal outreach and priority service. At Risk and Can't Lose require immediate action; they were once valuable and are drifting away. One-Time clients are your largest untapped opportunity.")
 seg_counts = metrics["Segment"].value_counts().reset_index()
 seg_counts.columns = ["Segment", "Clients"]
 
@@ -96,6 +97,7 @@ st.markdown("---")
 
 # ── Can't Lose + At Risk highlight ────────────────────────────────────────────
 st.subheader("⚠️ At Risk & Can't Lose — Call List")
+st.caption("Clients furthest right haven't been back in the longest. Clients highest on the y-axis represent the most revenue at stake. Start your outreach in the top-right — high spend, long absence. Bubble size shows how many trips they've taken, indicating relationship depth.")
 priority = metrics[metrics["Segment"].isin(["🚨 Can't Lose", "⚠️ At Risk"])].sort_values("TotalSpend", ascending=False)
 
 if not priority.empty:
@@ -170,6 +172,7 @@ st.markdown("---")
 
 # ── Full RFM table ────────────────────────────────────────────────────────────
 st.subheader("📊 Full Client Scorecard")
+st.caption("R (Recency), F (Frequency), M (Monetary) scores each range 1–4. A score of 444 is a Champion — booked recently, often, and spent the most. A score of 111 is fully Lapsed. Use this table to build targeted outreach lists by sorting on any column.")
 with st.expander("View all clients with RFM scores"):
     full = metrics[["Client", "Segment", "TotalSpend", "TripCount",
                      "DaysSinceLastTrip", "LastTripDate", "R", "F", "M", "RFM_Score"]].copy()

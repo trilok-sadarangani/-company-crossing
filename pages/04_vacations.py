@@ -17,6 +17,7 @@ if df.empty:
 
 # ── Seasonality heatmap ───────────────────────────────────────────────────────
 st.subheader("When Do Trips Happen? (Seasonality)")
+st.caption("Darker cells mean more bookings. Look for your busiest month-day combinations to time marketing pushes. Pale cells in peak travel months are missed opportunities — those are the periods to run promotions or chase leads.")
 if "BookingMonthName" in df.columns and "BookingDayOfWeek" in df.columns:
     month_order = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
     day_order = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
@@ -42,6 +43,7 @@ st.markdown("---")
 
 # ── Most popular destinations ─────────────────────────────────────────────────
 st.subheader("Most Popular Destinations")
+st.caption("Compare booking count against revenue share — a popular destination with a small pie slice is high-volume but low-value. A less visited destination with a large slice is an opportunity to invest in and grow.")
 if "Destination" in df.columns:
     dest = (
         df[df["Destination"] != "Unknown"]
@@ -96,6 +98,7 @@ st.markdown("---")
 
 # ── Group size ────────────────────────────────────────────────────────────────
 st.subheader("Group Size")
+st.caption("Larger groups mean more rooms and more revenue per trip with similar planning effort. If most bookings are solo or pairs, there may be untapped potential in promoting group and family travel packages.")
 col1, col2 = st.columns(2)
 
 with col1:
@@ -129,6 +132,7 @@ st.markdown("---")
 
 # ── Trip ratings ──────────────────────────────────────────────────────────────
 st.subheader("Client Trip Ratings")
+st.caption("A skew toward the highest ratings means clients are leaving happy — the foundation for repeat bookings and referrals. Any concentration in lower ratings warrants a review of those specific trip types, destinations, or suppliers.")
 if "Trip_Trip_Rating__c" in df.columns and df["Trip_Trip_Rating__c"].notna().any():
     ratings = (
         df.drop_duplicates("Trip__c")["Trip_Trip_Rating__c"]

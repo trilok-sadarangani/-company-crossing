@@ -21,6 +21,7 @@ if rev_df.empty:
 
 # ── Revenue by destination (supplier country) ─────────────────────────────────
 st.subheader("Revenue by Destination")
+st.caption("The bar ranks your top earners; the map shows geographic concentration. Heavy reliance on one or two countries is a risk — if travel to that region is disrupted, revenue takes a direct hit. Diversification across destinations improves resilience.")
 if "Destination" in rev_df.columns:
     dest = (
         rev_df[rev_df["Destination"] != "Unknown"]
@@ -55,6 +56,7 @@ st.markdown("---")
 
 # ── Revenue over time ─────────────────────────────────────────────────────────
 st.subheader("Revenue Trend")
+st.caption("Use Month for granular patterns, Quarter to smooth out noise, Year for strategic growth view. A consistent upward slope is the goal — look for the periods where revenue dipped and cross-reference with what was happening commercially at that time.")
 if "BookingMonth" in rev_df.columns:
     col_a, col_b = st.columns([1, 3])
     with col_a:
@@ -82,6 +84,7 @@ st.markdown("---")
 
 # ── Top suppliers by revenue ──────────────────────────────────────────────────
 st.subheader("Top 20 Suppliers by Revenue")
+st.caption("Suppliers near the top are key relationships — treat them as partners, not just vendors. If one supplier dominates, you have pricing leverage but also dependency risk. Colour shows supplier type, so you can see which categories your top partners fall into.")
 if "Supplier_Name" in rev_df.columns:
     suppliers = (
         rev_df.dropna(subset=["Supplier_Name"])
@@ -108,6 +111,7 @@ st.markdown("---")
 
 # ── Revenue vs cost breakdown ─────────────────────────────────────────────────
 st.subheader("Revenue vs Vendor Cost by Booking Type")
+st.caption("The gap between the Revenue and Cost bars is your gross profit per booking type. A small gap means thin margins — ask whether your pricing reflects the effort and risk involved. The Profit bar makes the gap explicit.")
 if "Category__c" in rev_df.columns and VENDOR_COST_FIELD in rev_df.columns:
     breakdown = (
         rev_df.groupby("Category__c")
