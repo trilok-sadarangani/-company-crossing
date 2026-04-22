@@ -4,14 +4,15 @@ import plotly.graph_objects as go
 import pandas as pd
 from data_processor import format_currency
 from config import COLOR_SEQUENCE, REVENUE_FIELD
+from sidebar import render_filters
 
 st.set_page_config(page_title="Vacation Patterns", page_icon="🏖️", layout="wide")
 st.title("🏖️ Vacation Patterns")
 st.caption("When people travel, where they go, and how long they stay.")
 
-df = st.session_state.get("df", pd.DataFrame())
+df, _, _ = render_filters()
 if df.empty:
-    st.warning("No data — return to the Home page first.")
+    st.info("No data — check filters or Salesforce credentials.")
     st.stop()
 
 # ── Seasonality heatmap ───────────────────────────────────────────────────────

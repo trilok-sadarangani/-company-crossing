@@ -3,14 +3,15 @@ import plotly.express as px
 import pandas as pd
 from data_processor import format_currency
 from config import COLOR_PRIMARY, COLOR_SEQUENCE, REVENUE_FIELD, VENDOR_COST_FIELD
+from sidebar import render_filters
 
 st.set_page_config(page_title="Overview", page_icon="📊", layout="wide")
 st.title("📊 Overview")
 st.caption("High-level summary of revenue, bookings, and profit.")
 
-df = st.session_state.get("df", pd.DataFrame())
+df, _, _ = render_filters()
 if df.empty:
-    st.warning("No data — return to the Home page first.")
+    st.info("No data — check filters or Salesforce credentials.")
     st.stop()
 
 rev_df = df[df[REVENUE_FIELD].notna()] if REVENUE_FIELD in df.columns else pd.DataFrame()

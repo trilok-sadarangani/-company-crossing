@@ -3,15 +3,15 @@ import plotly.express as px
 import pandas as pd
 from data_processor import format_currency, top_clients
 from config import COLOR_SEQUENCE, COLOR_POSITIVE, COLOR_NEUTRAL, REVENUE_FIELD
+from sidebar import render_filters
 
 st.set_page_config(page_title="Customer Insights", page_icon="👥", layout="wide")
 st.title("👥 Customer Insights")
 st.caption("Who your customers are, where they come from, and how much they spend.")
 
-df = st.session_state.get("df", pd.DataFrame())
-trip_clients = st.session_state.get("trip_clients", pd.DataFrame())
+df, _, trip_clients = render_filters()
 if df.empty:
-    st.warning("No data — return to the Home page first.")
+    st.info("No data — check filters or Salesforce credentials.")
     st.stop()
 
 # ── KPIs ──────────────────────────────────────────────────────────────────────

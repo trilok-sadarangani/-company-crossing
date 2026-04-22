@@ -3,16 +3,16 @@ import plotly.express as px
 import pandas as pd
 from data_processor import format_currency
 from config import COLOR_SEQUENCE, REVENUE_FIELD, CONFIRMED_STATUSES
+from sidebar import render_filters
 
 st.set_page_config(page_title="Pipeline & Upcoming", page_icon="🗓️", layout="wide")
 st.title("🗓️ Pipeline & Upcoming Trips")
 st.caption("Confirmed revenue coming in over the next 30, 60, and 90 days.")
 
-df_all = st.session_state.get("df_all", pd.DataFrame())
-trip_clients = st.session_state.get("trip_clients", pd.DataFrame())
+_, df_all, trip_clients = render_filters()
 
 if df_all.empty:
-    st.warning("No data — return to the Home page first.")
+    st.info("No data — check Salesforce credentials.")
     st.stop()
 
 today = pd.Timestamp.now(tz="UTC")

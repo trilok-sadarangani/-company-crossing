@@ -3,16 +3,16 @@ import plotly.express as px
 import pandas as pd
 from data_processor import build_client_metrics, format_currency
 from config import COLOR_SEQUENCE
+from sidebar import render_filters
 
 st.set_page_config(page_title="Customer Intelligence", page_icon="🎯", layout="wide")
 st.title("🎯 Customer Intelligence")
 st.caption("Re-engagement targets, loyalty segments, and booking patterns — so you know exactly who to call.")
 
-df = st.session_state.get("df_all", pd.DataFrame())
-trip_clients = st.session_state.get("trip_clients", pd.DataFrame())
+_, df, trip_clients = render_filters()
 
 if df.empty or trip_clients.empty:
-    st.warning("No data — return to the Home page first.")
+    st.info("No data — check Salesforce credentials.")
     st.stop()
 
 metrics = build_client_metrics(trip_clients, df)
