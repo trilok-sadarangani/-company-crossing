@@ -32,16 +32,41 @@ if "Destination" in rev_df.columns:
     )
     dest["Label"] = dest["Revenue"].apply(format_currency)
 
+    top5 = dest.head(5)
+    bottom5 = dest.tail(5).sort_values("Revenue")
+    combined = pd.concat([
+        top5.assign(Group="Top 5"),
+        bottom5.assign(Group="Bottom 5"),
+    ])
+
     col_a, col_b = st.columns(2)
     with col_a:
         fig = px.bar(
-            dest.head(20), x="Country", y="Revenue", text="Label",
+            combined, x="Country", y="Revenue", text="Label", color="Group",
             labels={"Country": "", "Revenue": "Revenue (£)"},
-            color_discrete_sequence=COLOR_SEQUENCE,
+            color_discrete_map={"Top 5": "#1a6fa8", "Bottom 5": "#e05a3a"},
+            category_orders={"Country": list(top5["Country"]) + list(bottom5["Country"])},
         )
         fig.update_traces(textposition="outside")
-        fig.update_layout(xaxis_tickangle=-40, showlegend=False)
+        fig.update_layout(xaxis_tickangle=-40, showlegend=True, legend_title_text="")
         st.plotly_chart(fig, use_container_width=True)
+
+        # Search any destination not in Top/Bottom 5
+        all_countries = dest["Country"].tolist()
+        search_dest = st.selectbox(
+            "Look up any destination",
+            options=[""] + all_countries,
+            format_func=lambda x: "— search all destinations —" if x == "" else x,
+            key="dest_search",
+        )
+        if search_dest:
+            row = dest[dest["Country"] == search_dest].iloc[0]
+            rank = dest["Country"].tolist().index(search_dest) + 1
+            st.metric(
+                label=f"{search_dest} (Rank #{rank} of {len(dest)})",
+                value=row["Label"],
+            )
+
     with col_b:
         fig2 = px.choropleth(
             dest, locations="Country", locationmode="country names",
@@ -86,16 +111,16 @@ st.markdown("---")
 st.subheader("Top 20 Suppliers by Revenue")
 st.caption("Suppliers near the top are key relationships — treat them as partners, not just vendors. If one supplier dominates, you have pricing leverage but also dependency risk. Colour shows supplier type, so you can see which categories your top partners fall into.")
 if "Supplier_Name" in rev_df.columns:
-    suppliers = (
+    all_suppliers = (
         rev_df.dropna(subset=["Supplier_Name"])
         .groupby(["Supplier_Name", "Supplier_Type"])
         .agg(Revenue=(REVENUE_FIELD, "sum"), Bookings=("Id", "count"))
         .reset_index()
         .rename(columns={"Supplier_Name": "Supplier", "Supplier_Type": "Type"})
         .sort_values("Revenue", ascending=False)
-        .head(20)
     )
-    suppliers["Label"] = suppliers["Revenue"].apply(format_currency)
+    all_suppliers["Label"] = all_suppliers["Revenue"].apply(format_currency)
+    suppliers = all_suppliers.head(20)
 
     fig4 = px.bar(
         suppliers.sort_values("Revenue"), x="Revenue", y="Supplier",
@@ -106,6 +131,20 @@ if "Supplier_Name" in rev_df.columns:
     fig4.update_traces(textposition="outside")
     fig4.update_layout(yaxis={"categoryorder": "total ascending"})
     st.plotly_chart(fig4, use_container_width=True)
+
+    search_sup = st.selectbox(
+        "Look up any supplier",
+        options=[""] + all_suppliers["Supplier"].tolist(),
+        format_func=lambda x: "— search all suppliers —" if x == "" else x,
+        key="supplier_search",
+    )
+    if search_sup:
+        row = all_suppliers[all_suppliers["Supplier"] == search_sup].iloc[0]
+        rank = all_suppliers["Supplier"].tolist().index(search_sup) + 1
+        c1, c2, c3 = st.columns(3)
+        c1.metric(f"Rank #{rank} of {len(all_suppliers)}", row["Label"], help="Total revenue")
+        c2.metric("Bookings", int(row["Bookings"]))
+        c3.metric("Type", row["Type"] if pd.notna(row["Type"]) else "—")
 
 st.markdown("---")
 

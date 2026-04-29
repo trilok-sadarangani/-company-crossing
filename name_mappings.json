@@ -1,0 +1,23 @@
+{
+  "clients": {
+    "Anjali Taparia": "Anjali Taparia Biyani",
+    "Gabi Weiss": "Gabrielle Weiss",
+    "Sabina Saksena.": "Sabina Saksena"
+  },
+  "destinations": {
+    "Cile": "Chile",
+    "Finalnd": "Finland",
+    "Italy,": "Italy",
+    "Morroco": "Morocco",
+    "SIngapore": "Singapore",
+    "United Sates": "United States",
+    "france": "France",
+    "germany": "Germany",
+    "portugal": "Portugal"
+  },
+  "suppliers": {
+    "Hospes Pallacio Del Bailo, Cordoba": "Hospes Palacio Del Bail\u00edo, Cordoba",
+    "J W Marriott Quito": "JW Marriott Quito",
+    "Marriott Malta": "Malta Marriott"
+  }
+}

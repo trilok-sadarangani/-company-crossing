@@ -114,7 +114,7 @@ st.subheader("New Clients Over Time")
 st.caption("A growing bar chart shows healthy acquisition. Flat or declining new client numbers means future growth depends entirely on existing clients returning — check the Customer Intelligence page to see how well you're retaining them.")
 if not trip_clients.empty and "Trip__c" in trip_clients.columns:
     # Join trip start date to trip_clients — only past months
-    today = pd.Timestamp.now(tz="UTC").normalize()
+    today = pd.Timestamp.now().normalize()
     trip_dates = (
         df[["Trip__c", "BookingMonth"]].drop_duplicates("Trip__c").dropna()
     )

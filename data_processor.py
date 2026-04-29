@@ -1,5 +1,6 @@
 import pandas as pd
 from config import CONFIRMED_STATUSES, ACTIVE_TRIP_STATUSES, REVENUE_FIELD, VENDOR_COST_FIELD
+from data_cleanup import load_mappings, apply_mapping
 
 
 def confirmed(df: pd.DataFrame) -> pd.DataFrame:
@@ -56,6 +57,13 @@ def enrich(df: pd.DataFrame) -> pd.DataFrame:
     else:
         df["Destination"] = dest
 
+    # Apply canonical name mappings (defined via the Data Cleanup page)
+    mappings = load_mappings()
+    if "Supplier_Name" in df.columns:
+        df["Supplier_Name"] = apply_mapping(df["Supplier_Name"], mappings["suppliers"])
+    if "Destination" in df.columns:
+        df["Destination"] = apply_mapping(df["Destination"], mappings["destinations"])
+
     return df
 
 
@@ -93,13 +101,17 @@ TEST_KEYWORDS = ["test", "sample", "dummy", "demo"]
 
 
 def _clean_clients(trip_clients: pd.DataFrame) -> pd.DataFrame:
-    """Remove test/sample accounts from trip_clients."""
+    """Remove test/sample accounts and apply canonical name mappings."""
     if "Client_Name" not in trip_clients.columns:
         return trip_clients
     mask = trip_clients["Client_Name"].str.lower().str.contains(
         "|".join(TEST_KEYWORDS), na=False
     )
-    return trip_clients[~mask]
+    cleaned = trip_clients[~mask].copy()
+    client_mapping = load_mappings().get("clients", {})
+    if client_mapping:
+        cleaned["Client_Name"] = apply_mapping(cleaned["Client_Name"], client_mapping)
+    return cleaned
 
 
 def build_client_metrics(trip_clients: pd.DataFrame, bookings: pd.DataFrame) -> pd.DataFrame:
