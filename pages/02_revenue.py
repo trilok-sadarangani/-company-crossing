@@ -44,7 +44,7 @@ if "Destination" in rev_df.columns:
         fig = px.bar(
             combined, x="Country", y="Revenue", text="Label", color="Group",
             labels={"Country": "", "Revenue": "Revenue (£)"},
-            color_discrete_map={"Top 5": "#1a6fa8", "Bottom 5": "#e05a3a"},
+            color_discrete_map={"Top 5": "#7B4F3A", "Bottom 5": "#C4714A"},
             category_orders={"Country": list(top5["Country"]) + list(bottom5["Country"])},
         )
         fig.update_traces(textposition="outside")
@@ -71,7 +71,7 @@ if "Destination" in rev_df.columns:
         fig2 = px.choropleth(
             dest, locations="Country", locationmode="country names",
             color="Revenue", hover_name="Country",
-            color_continuous_scale="Blues",
+            color_continuous_scale=[[0, "#EDE7DF"], [1, "#7B4F3A"]],
             title="Revenue by Country",
         )
         fig2.update_layout(geo=dict(showframe=False))

@@ -1,0 +1,6 @@
+[theme]
+primaryColor        = "#7B4F3A"   # warm terracotta-brown — buttons, sliders, links
+backgroundColor     = "#F5F0EC"   # Company Crossing cream
+secondaryBackgroundColor = "#EDE7DF"  # slightly deeper cream — sidebar, cards
+textColor           = "#2C1A0E"   # deep warm brown instead of pure black
+font                = "sans serif"

@@ -100,7 +100,7 @@ if "Trip_Client_Location__c" in df.columns and df["Trip_Client_Location__c"].not
         fig4 = px.choropleth(
             locations, locations="Location", locationmode="country names",
             color="Trips", hover_name="Location",
-            color_continuous_scale="Blues",
+            color_continuous_scale=[[0, "#EDE7DF"], [1, "#7B4F3A"]],
         )
         fig4.update_layout(geo=dict(showframe=False))
         st.plotly_chart(fig4, use_container_width=True)

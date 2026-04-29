@@ -106,7 +106,7 @@ if not priority.empty:
         x="DaysSinceLastTrip", y="TotalSpend",
         size="TripCount", color="Segment", hover_name="Client",
         labels={"DaysSinceLastTrip": "Days Since Last Trip", "TotalSpend": "Lifetime Spend (£)"},
-        color_discrete_sequence=["#d62728", "#ff7f0e"],
+        color_discrete_sequence=["#C4614A", "#D4A853"],
     )
     fig3.update_layout(showlegend=True)
     st.plotly_chart(fig3, use_container_width=True)

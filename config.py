@@ -2,13 +2,19 @@ PAGE_TITLE = "Company Crossing — Travel Analytics"
 PAGE_ICON = "✈️"
 LAYOUT = "wide"
 
-COLOR_PRIMARY = "#1f77b4"
-COLOR_POSITIVE = "#2ca02c"
-COLOR_NEGATIVE = "#d62728"
-COLOR_NEUTRAL = "#7f7f7f"
+COLOR_PRIMARY = "#7B4F3A"   # warm terracotta-brown
+COLOR_POSITIVE = "#4A7C5C"  # muted sage green
+COLOR_NEGATIVE = "#C4614A"  # warm terracotta red
+COLOR_NEUTRAL = "#8C7B70"   # warm greige
 COLOR_SEQUENCE = [
-    "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728",
-    "#9467bd", "#8c564b", "#e377c2", "#bcbd22",
+    "#7B4F3A",  # terracotta brown
+    "#C4714A",  # warm terracotta
+    "#D4A853",  # warm gold
+    "#4A7C5C",  # sage green
+    "#3D7A7A",  # deep teal
+    "#6B8F71",  # muted green
+    "#C4857A",  # dusty rose
+    "#3D4F6E",  # warm navy
 ]
 
 # Booking_Status__c values that count as active/confirmed revenue
