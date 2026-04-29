@@ -147,6 +147,7 @@ for tab, cfg in zip(tabs, entity_config):
             data=json.dumps(mappings, indent=2, sort_keys=True),
             file_name="name_mappings.json",
             mime="application/json",
+            key=f"download_{key}",
             help=(
                 "On Streamlit Cloud, mappings reset when the app restarts. "
                 "Download this file and commit it to your repo to make them permanent."
